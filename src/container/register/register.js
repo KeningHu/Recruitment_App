@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom'
 
 import {connect } from 'react-redux'
 import {register} from '../../redux/user.redux'
+import imoocForm from '../../component/imooc-form/imooc-form'
 
 
 @connect(
@@ -12,27 +13,20 @@ import {register} from '../../redux/user.redux'
 	{register}
 
 )
-
+@imoocForm
 class Register extends React.Component{
 	constructor(props){
 		super(props)
-		this.state = {
-			user 	 	:'',
-			pwd 	 	:'',
-			repeatpwd 	:'',
-			type 		: 'genius' // boss
-		}
+		
 		this.handleRegister = this.handleRegister.bind(this)
 	}
 	
-	handleChange(key, val){
-		this.setState({
-			[key]:val
-		})
+	componentDidMount(){
+		this.props.handleChange('type', 'genius')
 	}
 
 	handleRegister(){
-		this.props.register(this.state)
+		this.props.register(this.props.state)
 	}
 	render(){
 		const RadioItem = Radio.RadioItem
@@ -44,29 +38,29 @@ class Register extends React.Component{
 					{this.props.msg? <p className='error-msg'>{this.props.msg}</p>:null}
 					<WhiteSpace />
 					<InputItem
-						onChange={(v)=>this.handleChange('user', v)}
+						onChange={(v)=>this.props.handleChange('user', v)}
 
 					>User name</InputItem>
 					<WhiteSpace />
 					<InputItem
 						type='password'
-						onChange={(v)=>this.handleChange('pwd', v)}
+						onChange={(v)=>this.props.handleChange('pwd', v)}
 					>Password</InputItem>
 					<WhiteSpace />
 					<InputItem placeholder='confirm your password' 
 						type='password'
-						onChange={(v)=>this.handleChange('repeatpwd', v)}
+						onChange={(v)=>this.props.handleChange('repeatpwd', v)}
 
 					>Confirm</InputItem>
 					<WhiteSpace />
-					<RadioItem checked={this.state.type==='genius'}
-					onChange={()=>this.handleChange('type','genius')}
+					<RadioItem checked={this.props.state.type=='genius'}
+					onChange={()=>this.props.handleChange('type','genius')}
 
 					>
 						genuis
 					</RadioItem>
-					<RadioItem checked={this.state.type==='boss'}
-					onChange={()=>this.handleChange('type','boss')}
+					<RadioItem checked={this.props.state.type==='boss'}
+					onChange={()=>this.props.handleChange('type','boss')}
 
 
 					>

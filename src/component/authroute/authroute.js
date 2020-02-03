@@ -2,7 +2,7 @@
 * @Author: hukening
 * @Date:   2019-12-30 10:34:18
 * @Last Modified by:   KeningHu
-* @Last Modified time: 2020-01-13 10:22:30
+* @Last Modified time: 2020-02-03 16:34:24
 */
 import React from 'react'
 import axios from 'axios'
@@ -31,9 +31,7 @@ class AuthRoute extends React.Component{
 					this.props.loadData(res.data.data)
 
 				} else {
-
-				this.props.history.push('/login')
-
+					this.props.history.push('/login')
 				}
 			}
 		})
