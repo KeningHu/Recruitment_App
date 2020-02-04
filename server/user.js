@@ -4,7 +4,11 @@ const express  	= require('express')
 const Router 	= express.Router()
 const model 	= require('./model')
 const User 		= model.getModel('user')
+const Chat 		= model.getModel('chat')
 const _filter 	= {'pwd':0, '__v':0}
+// Chat.remove({},function(e,d){
+
+// })
 
 Router.get('/list', function(req, res){
 	// User.remove({}, function(e, d){})
@@ -12,6 +16,24 @@ Router.get('/list', function(req, res){
 	User.find({type}, function(err, doc){
 		return res.json({code:0,data:doc})
 	})
+})
+Router.get('/getmsglist',function(req, res){
+	const user = req.cookies.userid
+	User.find({}, function(e, userdoc){
+		let users = {}
+		userdoc.forEach(v=>{
+			users[v._id] = {name:v.user, avatar:v.avatar}
+		})
+		Chat.find({'$or':[{from:user},{to:user}]},
+		// {'$or':[{from:user, to:user}]},
+		function(err,doc){
+		if(!err) {
+			return res.json({code:0, msgs:doc,users:users})
+		}
+	})
+	})
+
+	
 })
 Router.post('/update',function(req,res){
 	const userid = req.cookies.userid
@@ -59,21 +81,23 @@ Router.post('/register', function(req, res){
 
 	})
 })
-Router.get('/info', function(req, res){
-	const {userid} = req.cookies
-	if(!userid) {
-		return res.json({code:0})
-	}
-	User.findOne({_id:userid}, _filter, function(err, doc){
-		if(err){
-			return res.json({code:1, msg:'Something went wrong'})
-		}
-		if(doc){
-			return res.json({code:0, data:doc})
-		}
+Router.get('/getmsglist',function(req,res){
+	const user = req.cookies.userid
+
+	User.find({},function(e,userdoc){
+		let users = {}
+		userdoc.forEach(v=>{
+			users[v._id] = {name:v.user, avatar:v.avatar}
+		})
+		Chat.find({'$or':[{from:user},{to:user}]},function(err,doc){
+			if (!err) {
+				return res.json({code:0,msgs:doc, users:users})
+			}
+		})
+
 	})
-	// check cookie
-	
+	// {'$or':[{from:user,to:user}]}
+
 })
 
 function md5Pwd(pwd){
