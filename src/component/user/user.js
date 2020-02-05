@@ -41,7 +41,6 @@ class User extends React.Component{
 		<List renderHeader={()=>'description'}>
 		<Item
 		multipleLine
-
 		>
 			{props.title}
 			{props.desc.split('\n').map(v=><Brief key={v}>{v}</Brief>)}

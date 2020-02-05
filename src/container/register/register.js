@@ -59,7 +59,7 @@ class Register extends React.Component{
 					>
 						genuis
 					</RadioItem>
-					<RadioItem checked={this.props.state.type==='boss'}
+					<RadioItem checked={this.props.state.type=='boss'}
 					onChange={()=>this.props.handleChange('type','boss')}
 
 

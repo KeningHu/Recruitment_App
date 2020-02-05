@@ -27,9 +27,9 @@ export function chat(state=initState, action){
 function msgList(msgs,users){
 	return {type:'MSG_LIST', payload:{msgs,users}}
 }
-export function sendMsg({from ,to ,msg}){
+export function sendMsg({from, to, msg}){
 	return dispatch=>{
-		socket.emit('sendmsg',{from ,to ,msg})
+		socket.emit('sendmsg',{from, to, msg})
 	}
 	
 }
@@ -51,7 +51,7 @@ export function getMsgList(){
 			.then(res=>{
 				if (res.status==200 && res.data.code==0) {
 					const userid = getState().user._id
-					dispatch(msgList(res.data.msgs, res.data.users, userid))
+					dispatch(msgList(res.data.msgs, res.data.users,userid))
 				}
 			})
 	}
